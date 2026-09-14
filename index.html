@@ -6,14 +6,14 @@
     (function () {
       try {
         var t = localStorage.getItem('physfak-theme');
-        if (t === 'dark' || t === 'light') {document.documentElement.setAttribute('data-theme', t);}
+        if (t === 'dark' || t === 'light') { document.documentElement.setAttribute('data-theme', t); }
         var a = localStorage.getItem('physfak-accent');
         if (a) {
           document.documentElement.style.setProperty('--accent', a);
           document.documentElement.style.setProperty('--blue', a);
           var n = parseInt(a.slice(1), 16), r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255, amt = 0.35;
           r = Math.round(r + (255 - r) * amt); g = Math.round(g + (255 - g) * amt); b = Math.round(b + (255 - b) * amt);
-          var hex2 = '#' + [r, g, b].map(function (v) {return v.toString(16).padStart(2, '0');}).join('');
+          var hex2 = '#' + [r, g, b].map(function (v) { return v.toString(16).padStart(2, '0'); }).join('');
           document.documentElement.style.setProperty('--blue2', hex2);
         }
       } catch (e) { }
@@ -52,9 +52,9 @@
         theme_color: "#7C83FD",
         orientation: "portrait-primary",
         icons: [
-          {src: ICON_192, sizes: "192x192", type: "image/png", purpose: "any"},
-          {src: ICON_512, sizes: "512x512", type: "image/png", purpose: "any"},
-          {src: ICON_512_MASK, sizes: "512x512", type: "image/png", purpose: "maskable"}
+          { src: ICON_192, sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: ICON_512, sizes: "512x512", type: "image/png", purpose: "any" },
+          { src: ICON_512_MASK, sizes: "512x512", type: "image/png", purpose: "maskable" }
         ]
       };
       function toB64Utf8(str) {
@@ -2258,7 +2258,7 @@
     ];
 
     /* ============ DATA: SEMINAR PRESETS (video) ============ */
-    function mkSem(num, title, dur, path) {return {num, title, url: BASE + path, dur, watched: false, hw: '', deadline: '', status: 'todo'};}
+    function mkSem(num, title, dur, path) { return { num, title, url: BASE + path, dur, watched: false, hw: '', deadline: '', status: 'todo' }; }
 
     function defaultSeminarsData() {
       return [
@@ -2314,7 +2314,7 @@
             mkSem(17, 'Молекула', '02:10:04', '/lecture/2020-08-10-Voronina-2'),
           ]
         },
-        {id: 'sem-radio', name: 'Радиофизика', teacher: '', seminars: []},
+        { id: 'sem-radio', name: 'Радиофизика', teacher: '', seminars: [] },
         {
           id: 'sem-qphys', name: 'Введение в квантовую физику', teacher: 'Страупе С.С.', seminars: [
             mkSem(1, 'Абсолютно чёрное тело и характерные масштабы микромира', '43:27', '/lecture/2021-11-24-Straupe'),
@@ -2349,16 +2349,16 @@
             mkSem(17, 'Излучение быстро движущихся зарядов', '01:00:50', '/lecture/Ostanina-Seminar-17'),
           ]
         },
-        {id: 'sem-nis', name: 'НИС (доп. главы линейной алгебры)', teacher: 'кафедра мат. моделирования и информатики', seminars: []},
-        {id: 'sem-interfac', name: 'Межфакультетский курс', teacher: '', seminars: []},
-        {id: 'sem-english', name: 'Английский язык', teacher: '', seminars: []},
+        { id: 'sem-nis', name: 'НИС (доп. главы линейной алгебры)', teacher: 'кафедра мат. моделирования и информатики', seminars: [] },
+        { id: 'sem-interfac', name: 'Межфакультетский курс', teacher: '', seminars: [] },
+        { id: 'sem-english', name: 'Английский язык', teacher: '', seminars: [] },
       ];
     }
 
     function defaultLabsData() {
       return [
-        {name: 'Радиофизический практикум', tasks: []},
-        {name: 'Атомный практикум', tasks: []},
+        { name: 'Радиофизический практикум', tasks: [] },
+        { name: 'Атомный практикум', tasks: [] },
       ];
     }
 
@@ -2375,7 +2375,7 @@
     const LOCAL_KEY = 'physfak-tracker-state-v1';
 
     function getAppState() {
-      return {lectureProgress, seminarsData, labsData, activityLog, pinned, notes, updatedAt: appUpdatedAt};
+      return { lectureProgress, seminarsData, labsData, activityLog, pinned, notes, updatedAt: appUpdatedAt };
     }
     function setAppState(s) {
       lectureProgress = s.lectureProgress || {};
@@ -2390,8 +2390,8 @@
     async function loadAll() {
       try {
         const raw = localStorage.getItem(LOCAL_KEY);
-        if (raw) {setAppState(JSON.parse(raw)); return;}
-      } catch (e) {console.error('Ошибка чтения локальных данных', e);}
+        if (raw) { setAppState(JSON.parse(raw)); return; }
+      } catch (e) { console.error('Ошибка чтения локальных данных', e); }
       // ничего не сохранено локально — стартуем с предзаполненных данных
       lectureProgress = {};
       seminarsData = defaultSeminarsData();
@@ -2403,8 +2403,8 @@
     }
 
     function logActivity(type) {
-      const today = new Date().toISOString().slice(0, 10);
-      activityLog.push({date: today, type});
+      const today = toLocalISO(new Date());
+      activityLog.push({ date: today, type });
       if (activityLog.length > 500) activityLog = activityLog.slice(-500);
     }
 
@@ -2413,9 +2413,9 @@
       persistLocal(true);
     }
     function unpin(key) {
-      if (pinned[key]) {delete pinned[key]; persistLocal(true);}
+      if (pinned[key]) { delete pinned[key]; persistLocal(true); }
     }
-    function getNote(key) {return notes[key] || '';}
+    function getNote(key) { return notes[key] || ''; }
     function setNote(key, text) {
       const trimmed = (text || '').trim();
       if (trimmed) notes[key] = trimmed; else delete notes[key];
@@ -2463,15 +2463,15 @@
       if (touch) appUpdatedAt = Date.now();
       try {
         localStorage.setItem(LOCAL_KEY, JSON.stringify(getAppState()));
-      } catch (e) {console.error('Ошибка записи локальных данных', e);}
+      } catch (e) { console.error('Ошибка записи локальных данных', e); }
       if (touch) scheduleCloudSync();
     }
 
     // эти три функции вызываются по всему коду ниже при любом изменении —
     // просто перенаправляем их в общее сохранение
-    async function saveLectureProgress() {persistLocal(true);}
-    async function saveSeminars() {persistLocal(true);}
-    async function saveLabs() {persistLocal(true);}
+    async function saveLectureProgress() { persistLocal(true); }
+    async function saveSeminars() { persistLocal(true); }
+    async function saveLabs() { persistLocal(true); }
 
     /* ============ GOOGLE DRIVE SYNC ============ */
     // Вставь сюда свой Client ID из Google Cloud Console (см. инструкцию SETUP.md)
@@ -2489,7 +2489,7 @@
       const dot = document.getElementById('sync-dot');
       dot.className = 'sync-dot ' + state;
     }
-    function setSyncText(text) {document.getElementById('sync-text').textContent = text;}
+    function setSyncText(text) { document.getElementById('sync-text').textContent = text; }
 
     function updateSyncUI() {
       const signedIn = !!accessToken;
@@ -2504,10 +2504,10 @@
         setSyncDot('off'); setSyncText('Not connected to Google Drive — data stays on this device only');
         return;
       }
-      if (isSyncing) {setSyncDot('warn'); setSyncText('Syncing…'); return;}
+      if (isSyncing) { setSyncDot('warn'); setSyncText('Syncing…'); return; }
       const last = localStorage.getItem('physfak-last-synced');
       setSyncDot('ok');
-      setSyncText(last ? 'Synced at ' + new Date(+last).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'}) : 'Connected');
+      setSyncText(last ? 'Synced at ' + new Date(+last).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Connected');
     }
 
     function scheduleCloudSync() {
@@ -2518,20 +2518,20 @@
     }
 
     function driveHeaders(extra) {
-      return Object.assign({'Authorization': 'Bearer ' + accessToken}, extra || {});
+      return Object.assign({ 'Authorization': 'Bearer ' + accessToken }, extra || {});
     }
 
     async function driveFindFile() {
       const q = encodeURIComponent(`name='${DRIVE_FILENAME}'`);
       const url = `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=${q}&fields=files(id,modifiedTime)`;
-      const res = await fetch(url, {headers: driveHeaders()});
+      const res = await fetch(url, { headers: driveHeaders() });
       if (!res.ok) throw new Error('Drive find failed: ' + res.status);
       const data = await res.json();
       return (data.files && data.files[0]) || null;
     }
 
     async function driveDownload(fileId) {
-      const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {headers: driveHeaders()});
+      const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: driveHeaders() });
       if (!res.ok) throw new Error('Drive download failed: ' + res.status);
       return res.json();
     }
@@ -2541,20 +2541,20 @@
       if (fileId) {
         const res = await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, {
           method: 'PATCH',
-          headers: driveHeaders({'Content-Type': 'application/json'}),
+          headers: driveHeaders({ 'Content-Type': 'application/json' }),
           body
         });
         if (!res.ok) throw new Error('Drive update failed: ' + res.status);
         return res.json();
       } else {
-        const metadata = {name: DRIVE_FILENAME, parents: ['appDataFolder']};
+        const metadata = { name: DRIVE_FILENAME, parents: ['appDataFolder'] };
         const boundary = 'physfak_boundary_' + Date.now();
         const multipartBody =
           `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n` +
           `--${boundary}\r\nContent-Type: application/json\r\n\r\n${body}\r\n--${boundary}--`;
         const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
           method: 'POST',
-          headers: driveHeaders({'Content-Type': `multipart/related; boundary=${boundary}`}),
+          headers: driveHeaders({ 'Content-Type': `multipart/related; boundary=${boundary}` }),
           body: multipartBody
         });
         if (!res.ok) throw new Error('Drive create failed: ' + res.status);
@@ -2563,12 +2563,12 @@
     }
 
     async function syncNow() {
-      if (!accessToken || !navigator.onLine || isSyncing) {updateSyncUI(); return;}
+      if (!accessToken || !navigator.onLine || isSyncing) { updateSyncUI(); return; }
       isSyncing = true; updateSyncUI();
       try {
         const meta = await driveFindFile();
         let remoteState = null;
-        if (meta) {driveFileId = meta.id; remoteState = await driveDownload(meta.id);}
+        if (meta) { driveFileId = meta.id; remoteState = await driveDownload(meta.id); }
 
         const local = getAppState();
         if (!remoteState || (local.updatedAt || 0) >= (remoteState.updatedAt || 0)) {
@@ -2594,11 +2594,11 @@
 
     async function fetchGoogleEmail() {
       try {
-        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {headers: driveHeaders()});
+        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: driveHeaders() });
         if (!res.ok) return;
         const data = await res.json();
         document.getElementById('account-email').textContent = data.email || '';
-      } catch (e) { /* необязательно, просто косметика */}
+      } catch (e) { /* необязательно, просто косметика */ }
     }
 
     let isSilentAttempt = false;
@@ -2623,13 +2623,13 @@
           if (resp.error) {
             // тихая автопопытка не удалась (например, браузер требует явный клик) —
             // просто оставляем обычную кнопку входа, без пугающей ошибки
-            if (isSilentAttempt) {isSilentAttempt = false; updateSyncUI(); return;}
+            if (isSilentAttempt) { isSilentAttempt = false; updateSyncUI(); return; }
             setSyncDot('err'); setSyncText('Sign-in failed: ' + resp.error);
             return;
           }
           isSilentAttempt = false;
           accessToken = resp.access_token;
-          try {localStorage.setItem('physfak-google-connected', '1');} catch (e) { }
+          try { localStorage.setItem('physfak-google-connected', '1'); } catch (e) { }
           updateSyncUI();
           fetchGoogleEmail();
           syncNow();
@@ -2641,7 +2641,7 @@
           const refreshInMs = Math.max(30000, (expiresInSec - 300) * 1000);
           tokenRefreshTimer = setTimeout(() => {
             isSilentAttempt = true;
-            try {tokenClient.requestAccessToken({prompt: ''});} catch (e) {isSilentAttempt = false;}
+            try { tokenClient.requestAccessToken({ prompt: '' }); } catch (e) { isSilentAttempt = false; }
           }, refreshInMs);
         }
       });
@@ -2650,25 +2650,25 @@
       // если раньше уже входили на этом устройстве — пробуем переподключиться без клика.
       // Google выдаёт токен полностью тихо (без всплывающего окна), если сессия в Google
       // ещё активна и доступ уже был разрешён раньше. Если нет — просто останется кнопка входа.
-      const wasConnected = (() => {try {return localStorage.getItem('physfak-google-connected') === '1';} catch (e) {return false;} })();
+      const wasConnected = (() => { try { return localStorage.getItem('physfak-google-connected') === '1'; } catch (e) { return false; } })();
       if (wasConnected) {
         setTimeout(() => {
           isSilentAttempt = true;
-          try {tokenClient.requestAccessToken({prompt: ''});} catch (e) {isSilentAttempt = false;}
+          try { tokenClient.requestAccessToken({ prompt: '' }); } catch (e) { isSilentAttempt = false; }
         }, 300);
       }
     }
 
     function googleSignIn() {
       if (!tokenClient) return;
-      tokenClient.requestAccessToken({prompt: accessToken ? '' : 'consent'});
+      tokenClient.requestAccessToken({ prompt: accessToken ? '' : 'consent' });
     }
     function googleSignOut() {
       if (accessToken) {
         google.accounts.oauth2.revoke(accessToken, () => { });
       }
       accessToken = null; driveFileId = null;
-      try {localStorage.removeItem('physfak-google-connected');} catch (e) { }
+      try { localStorage.removeItem('physfak-google-connected'); } catch (e) { }
       document.getElementById('account-email').textContent = '';
       updateSyncUI();
     }
@@ -2676,7 +2676,7 @@
     document.getElementById('google-signin-btn').addEventListener('click', googleSignIn);
     document.getElementById('google-signout-btn').addEventListener('click', googleSignOut);
     document.getElementById('sync-now-btn').addEventListener('click', syncNow);
-    window.addEventListener('online', () => {updateSyncUI(); if (accessToken) syncNow();});
+    window.addEventListener('online', () => { updateSyncUI(); if (accessToken) syncNow(); });
     window.addEventListener('offline', updateSyncUI);
 
     /* ============ SERVICE WORKER (офлайн-доступ к самому приложению) ============ */
@@ -2696,7 +2696,7 @@
       );
     });
   `;
-      const swBlob = new Blob([swCode], {type: 'application/javascript'});
+      const swBlob = new Blob([swCode], { type: 'application/javascript' });
       const swUrl = URL.createObjectURL(swBlob);
       window.addEventListener('load', () => {
         navigator.serviceWorker.register(swUrl).catch(err => console.error('SW не зарегистрирован', err));
@@ -2704,20 +2704,32 @@
     }
 
     /* ============ SUMMARY ============ */
+    // возвращает YYYY-MM-DD по ЛОКАЛЬНОЙ дате устройства (не через UTC — иначе в часовых
+    // поясах восточнее UTC дата "съезжает" на день назад)
+    function toLocalISO(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
     function daysUntil(dateStr) {
-      return Math.ceil((new Date(dateStr) - new Date(new Date().toDateString())) / 86400000);
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const target = new Date(y, m - 1, d); // локальная полночь целевого дня
+      const today = new Date(); today.setHours(0, 0, 0, 0); // локальная полночь сегодня
+      return Math.round((target - today) / 86400000);
     }
 
     function weeklyStats() {
       const days = [];
       for (let i = 6; i >= 0; i--) {
         const d = new Date(); d.setDate(d.getDate() - i);
-        days.push(d.toISOString().slice(0, 10));
+        days.push(toLocalISO(d));
       }
       const counts = days.map(day => activityLog.filter(a => a.date === day).length);
-      const totals = {lecture: 0, hw: 0, lab: 0};
-      activityLog.forEach(a => {if (days.includes(a.date) && totals[a.type] !== undefined) totals[a.type]++;});
-      return {days, counts, totals};
+      const totals = { lecture: 0, hw: 0, lab: 0 };
+      activityLog.forEach(a => { if (days.includes(a.date) && totals[a.type] !== undefined) totals[a.type]++; });
+      return { days, counts, totals };
     }
 
     function sparklineSVG(counts) {
@@ -2741,16 +2753,16 @@
 
     function renderSummary() {
       let totalLec = 0, doneLec = 0;
-      COURSES.forEach(c => {totalLec += c.lectures.length; c.lectures.forEach((_, i) => {if (lectureProgress[c.id + '-L' + i]) doneLec++;});});
+      COURSES.forEach(c => { totalLec += c.lectures.length; c.lectures.forEach((_, i) => { if (lectureProgress[c.id + '-L' + i]) doneLec++; }); });
 
       let hwTotal = 0, hwDone = 0, urgent = 0;
       seminarsData.forEach(c => c.seminars.forEach(s => {
-        if (s.hw) {hwTotal++; if (s.status === 'done') hwDone++;}
-        if (s.deadline && s.status !== 'done') {if (daysUntil(s.deadline) <= 2) urgent++;}
+        if (s.hw) { hwTotal++; if (s.status === 'done') hwDone++; }
+        if (s.deadline && s.status !== 'done') { if (daysUntil(s.deadline) <= 2) urgent++; }
       }));
 
       let labTotal = 0, labDone = 0;
-      labsData.forEach(c => c.tasks.forEach(t => {labTotal++; if (t.stage === 2) labDone++;}));
+      labsData.forEach(c => c.tasks.forEach(t => { labTotal++; if (t.stage === 2) labDone++; }));
 
       document.getElementById('summary').innerHTML = `
     <div class="sum-card"><div class="num">${doneLec}/${totalLec}</div><div class="lbl">Watched</div></div>
@@ -2759,7 +2771,7 @@
     <div class="sum-card"><div class="num" style="color:${urgent > 0 ? 'var(--brick)' : 'var(--ink)'}">${urgent}</div><div class="lbl">Upcoming</div></div>
   `;
 
-      const {counts, totals} = weeklyStats();
+      const { counts, totals } = weeklyStats();
       const wrap = document.getElementById('week-stats');
       if (wrap) {
         wrap.innerHTML = `
@@ -2785,7 +2797,7 @@
     function animateProgressBars(container) {
       container.querySelectorAll('.progress-bar-fill[data-target]').forEach(el => {
         const target = el.dataset.target;
-        requestAnimationFrame(() => {requestAnimationFrame(() => {el.style.width = target;});});
+        requestAnimationFrame(() => { requestAnimationFrame(() => { el.style.width = target; }); });
       });
     }
 
@@ -2840,7 +2852,7 @@
           ev.stopPropagation();
           const id = el.dataset.toggle;
           lectureProgress[id] = !lectureProgress[id];
-          if (lectureProgress[id]) {logActivity('lecture'); unpin(id);}
+          if (lectureProgress[id]) { logActivity('lecture'); unpin(id); }
           await saveLectureProgress();
           renderLectures(); renderSummary();
         });
@@ -2966,7 +2978,7 @@
         el.addEventListener('change', async () => {
           const [ci, si] = el.dataset.status.split(':').map(Number);
           seminarsData[ci].seminars[si].status = el.value;
-          if (el.value === 'done') {logActivity('hw'); unpin(`sem-${ci}-${si}`);}
+          if (el.value === 'done') { logActivity('hw'); unpin(`sem-${ci}-${si}`); }
           await saveSeminars(); renderSeminars(); renderSummary(); renderDeadlines();
         });
       });
@@ -3002,7 +3014,7 @@
     function allDeadlineItems() {
       let list = [];
       seminarsData.forEach((c, ci) => c.seminars.forEach((s, si) => {
-        if (s.deadline) list.push({course: c.name, title: s.title, hw: s.hw, deadline: s.deadline, status: s.status, ci, si});
+        if (s.deadline) list.push({ course: c.name, title: s.title, hw: s.hw, deadline: s.deadline, status: s.status, ci, si });
       }));
       return list;
     }
@@ -3017,14 +3029,14 @@
       const daysInMonth = new Date(y, m + 1, 0).getDate();
       const items = allDeadlineItems();
       const byDate = {};
-      items.forEach(it => {(byDate[it.deadline] = byDate[it.deadline] || []).push(it);});
+      items.forEach(it => { (byDate[it.deadline] = byDate[it.deadline] || []).push(it); });
 
       const todayStr = new Date().toDateString();
       let cells = DOWS.map(d => `<div class="cal-dow">${d}</div>`).join('');
       for (let i = 0; i < startDow; i++) cells += `<div class="cal-cell empty"></div>`;
       for (let d = 1; d <= daysInMonth; d++) {
         const dateObj = new Date(y, m, d);
-        const iso = dateObj.toISOString().slice(0, 10);
+        const iso = toLocalISO(dateObj);
         const isToday = dateObj.toDateString() === todayStr;
         const isSelected = iso === selectedDate;
         const dayItems = byDate[iso] || [];
@@ -3062,10 +3074,10 @@
     function deadlineRowHTML(it) {
       const d = daysUntil(it.deadline);
       let cls = '', icon = '✅';
-      if (it.status === 'done') {cls = 'done'; icon = '✅';}
-      else if (d < 0) {cls = 'overdue'; icon = '❗';}
-      else if (d <= 2) {cls = 'urgent'; icon = '⚠️';}
-      else {icon = '🔵';}
+      if (it.status === 'done') { cls = 'done'; icon = '✅'; }
+      else if (d < 0) { cls = 'overdue'; icon = '❗'; }
+      else if (d <= 2) { cls = 'urgent'; icon = '⚠️'; }
+      else { icon = '🔵'; }
       const swipeable = it.status !== 'done' ? `data-ci="${it.ci}" data-si="${it.si}"` : '';
       return `<div class="dl-row" ${swipeable}>
     <span class="dl-priority">${icon}</span>
@@ -3080,12 +3092,12 @@
     function wireDeadlineSwipe(container) {
       container.querySelectorAll('.dl-row[data-ci]').forEach(row => {
         let startX = 0, currentX = 0, dragging = false;
-        row.addEventListener('touchstart', (e) => {startX = e.touches[0].clientX; dragging = true; row.classList.add('swiping');}, {passive: true});
+        row.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; dragging = true; row.classList.add('swiping'); }, { passive: true });
         row.addEventListener('touchmove', (e) => {
           if (!dragging) return;
           currentX = e.touches[0].clientX - startX;
           if (currentX < 0) row.style.transform = `translateX(${Math.max(currentX, -90)}px)`;
-        }, {passive: true});
+        }, { passive: true });
         row.addEventListener('touchend', () => {
           dragging = false; row.classList.remove('swiping');
           if (currentX < -60) {
@@ -3105,7 +3117,7 @@
       const bg = document.getElementById('day-sheet-bg');
       const content = document.getElementById('day-sheet-content');
       const items = allDeadlineItems().filter(it => it.deadline === iso);
-      const title = new Date(iso + 'T00:00:00').toLocaleDateString('en-US', {weekday: 'long', month: 'long', day: 'numeric'});
+      const title = new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
       content.innerHTML = `<div class="sheet-title">${title}</div>` + (
         items.length
@@ -3140,21 +3152,21 @@
           ? `<div class="empty"><h3>Nothing on this day</h3><p>Pick another day on the calendar or tap "Show All".</p></div>`
           : `<div class="empty"><h3>No deadlines yet</h3><p>Set due dates in the Seminars tab — they'll show up here and on the calendar.</p></div>`;
       } else {
-        if (pending.length) {html += `<div class="dl-section-title">Upcoming & Overdue</div>` + pending.map(deadlineRowHTML).join('');}
-        if (done.length) {html += `<div class="dl-section-title">Completed</div>` + done.map(deadlineRowHTML).join('');}
+        if (pending.length) { html += `<div class="dl-section-title">Upcoming & Overdue</div>` + pending.map(deadlineRowHTML).join(''); }
+        if (done.length) { html += `<div class="dl-section-title">Completed</div>` + done.map(deadlineRowHTML).join(''); }
       }
       wrap.innerHTML = html;
 
       const clearBtn = document.getElementById('dl-clear-filter');
-      if (clearBtn) clearBtn.addEventListener('click', () => {selectedDate = null; renderCalendar(); renderDeadlinesList(); closeDaySheet();});
+      if (clearBtn) clearBtn.addEventListener('click', () => { selectedDate = null; renderCalendar(); renderDeadlinesList(); closeDaySheet(); });
 
       wireDeadlineSwipe(wrap);
     }
 
-    function renderDeadlines() {renderCalendar(); renderDeadlinesList();}
+    function renderDeadlines() { renderCalendar(); renderDeadlinesList(); }
 
-    document.getElementById('cal-prev').addEventListener('click', () => {calendarDate.setMonth(calendarDate.getMonth() - 1); renderCalendar();});
-    document.getElementById('cal-next').addEventListener('click', () => {calendarDate.setMonth(calendarDate.getMonth() + 1); renderCalendar();});
+    document.getElementById('cal-prev').addEventListener('click', () => { calendarDate.setMonth(calendarDate.getMonth() - 1); renderCalendar(); });
+    document.getElementById('cal-next').addEventListener('click', () => { calendarDate.setMonth(calendarDate.getMonth() + 1); renderCalendar(); });
 
     /* ============ RENDER: LABS ============ */
     const STAGES = ['Done', 'Processed', 'Submitted'];
@@ -3202,7 +3214,7 @@
           const [ci, ti, si] = btn.dataset.stage.split(':').map(Number);
           const task = labsData[ci].tasks[ti];
           task.stage = (task.stage === si) ? si - 1 : si;
-          if (task.stage === 2) {logActivity('lab'); unpin(`lab-${ci}-${ti}`);}
+          if (task.stage === 2) { logActivity('lab'); unpin(`lab-${ci}-${ti}`); }
           await saveLabs(); renderLabs(); renderSummary();
         });
       });
@@ -3221,7 +3233,7 @@
         });
       });
       wrap.querySelectorAll('[data-add-task]').forEach(btn => {
-        btn.addEventListener('click', () => {pendingLabCourseIdx = +btn.dataset.addTask; openModal('modal-lab-item');});
+        btn.addEventListener('click', () => { pendingLabCourseIdx = +btn.dataset.addTask; openModal('modal-lab-item'); });
       });
     }
 
@@ -3232,20 +3244,20 @@
         const ci = +ciStr, si = +siStr;
         const c = seminarsData[ci]; if (!c) return null;
         const s = c.seminars[si]; if (!s) return null;
-        return {key, kind: 'seminar', ci, si, title: s.hw || s.title, subtitle: c.name, done: s.status === 'done'};
+        return { key, kind: 'seminar', ci, si, title: s.hw || s.title, subtitle: c.name, done: s.status === 'done' };
       }
       if (key.startsWith('lab-')) {
         const [, ciStr, tiStr] = key.split('-');
         const ci = +ciStr, ti = +tiStr;
         const c = labsData[ci]; if (!c) return null;
         const t = c.tasks[ti]; if (!t) return null;
-        return {key, kind: 'lab', ci, ti, title: t.title, subtitle: c.name, done: t.stage === 2};
+        return { key, kind: 'lab', ci, ti, title: t.title, subtitle: c.name, done: t.stage === 2 };
       }
       const m = key.match(/^(.+)-L(\d+)$/);
       if (m) {
         const course = COURSES.find(c => c.id === m[1]); if (!course) return null;
         const lec = course.lectures[+m[2]]; if (!lec) return null;
-        return {key, kind: 'lecture', title: lec[0], subtitle: course.name, done: !!lectureProgress[key]};
+        return { key, kind: 'lecture', title: lec[0], subtitle: course.name, done: !!lectureProgress[key] };
       }
       return null;
     }
@@ -3267,21 +3279,21 @@
       const container = document.getElementById('view-today');
       if (!container) return;
       const now = new Date();
-      const dateStr = now.toLocaleDateString('en-US', {weekday: 'long', month: 'long', day: 'numeric'});
+      const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
       // вручную закреплённые пункты (пользователь сам выбрал, что видеть в Focus)
-      const pinnedResolved = Object.keys(pinned).map(resolvePinnedItem).filter(it => it && !it.done).map(it => ({...it, pinnedFlag: true}));
+      const pinnedResolved = Object.keys(pinned).map(resolvePinnedItem).filter(it => it && !it.done).map(it => ({ ...it, pinnedFlag: true }));
 
       // плюс горящие дедлайны, которые ещё не закреплены вручную — чтобы не задваивать
       const pinnedSemKeys = new Set(pinnedResolved.filter(it => it.kind === 'seminar').map(it => `${it.ci}:${it.si}`));
       const autoDeadlines = allDeadlineItems()
         .filter(it => it.status !== 'done' && daysUntil(it.deadline) <= 0 && !pinnedSemKeys.has(`${it.ci}:${it.si}`))
         .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
-        .map(it => ({key: `sem-${it.ci}-${it.si}`, kind: 'seminar', ci: it.ci, si: it.si, title: it.hw || it.title, subtitle: it.course, overdue: daysUntil(it.deadline) < 0, auto: true}));
+        .map(it => ({ key: `sem-${it.ci}-${it.si}`, kind: 'seminar', ci: it.ci, si: it.si, title: it.hw || it.title, subtitle: it.course, overdue: daysUntil(it.deadline) < 0, auto: true }));
 
       const focus = [...pinnedResolved, ...autoDeadlines].slice(0, 5);
 
-      const todayISO = now.toISOString().slice(0, 10);
+      const todayISO = toLocalISO(now);
       const doneToday = {
         lecture: activityLog.filter(a => a.date === todayISO && a.type === 'lecture').length,
         hw: activityLog.filter(a => a.date === todayISO && a.type === 'hw').length,
@@ -3339,16 +3351,16 @@
     /* ============ MODALS ============ */
     let pendingSemCourseIdx = null;
     let pendingLabCourseIdx = null;
-    function openModal(id) {document.getElementById(id).classList.add('open');}
-    function closeModal(id) {document.getElementById(id).classList.remove('open');}
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
-    document.querySelectorAll('.modal-bg').forEach(bg => bg.addEventListener('click', (e) => {if (e.target === bg) bg.classList.remove('open');}));
+    document.querySelectorAll('.modal-bg').forEach(bg => bg.addEventListener('click', (e) => { if (e.target === bg) bg.classList.remove('open'); }));
 
     document.getElementById('add-sem-course').addEventListener('click', () => openModal('modal-sem-course'));
     document.getElementById('save-sem-course').addEventListener('click', async () => {
       const name = document.getElementById('sem-course-name').value.trim();
       if (!name) return;
-      seminarsData.push({id: 'custom-' + Date.now(), name, teacher: '', seminars: []});
+      seminarsData.push({ id: 'custom-' + Date.now(), name, teacher: '', seminars: [] });
       document.getElementById('sem-course-name').value = '';
       await saveSeminars(); closeModal('modal-sem-course'); renderSeminars(); renderSummary();
     });
@@ -3358,7 +3370,7 @@
       if (!title || pendingSemCourseIdx === null) return;
       const hw = document.getElementById('sem-item-hw').value.trim();
       const deadline = document.getElementById('sem-item-deadline').value;
-      seminarsData[pendingSemCourseIdx].seminars.push({num: null, title, url: null, dur: null, watched: false, hw, deadline, status: 'todo'});
+      seminarsData[pendingSemCourseIdx].seminars.push({ num: null, title, url: null, dur: null, watched: false, hw, deadline, status: 'todo' });
       document.getElementById('sem-item-title').value = '';
       document.getElementById('sem-item-hw').value = '';
       document.getElementById('sem-item-deadline').value = '';
@@ -3369,7 +3381,7 @@
     document.getElementById('save-lab-course').addEventListener('click', async () => {
       const name = document.getElementById('lab-course-name').value.trim();
       if (!name) return;
-      labsData.push({name, tasks: []});
+      labsData.push({ name, tasks: [] });
       document.getElementById('lab-course-name').value = '';
       await saveLabs(); closeModal('modal-lab-course'); renderLabs(); renderSummary();
     });
@@ -3377,7 +3389,7 @@
     document.getElementById('save-lab-item').addEventListener('click', async () => {
       const title = document.getElementById('lab-item-title').value.trim();
       if (!title || pendingLabCourseIdx === null) return;
-      labsData[pendingLabCourseIdx].tasks.push({title, stage: -1});
+      labsData[pendingLabCourseIdx].tasks.push({ title, stage: -1 });
       document.getElementById('lab-item-title').value = '';
       await saveLabs(); closeModal('modal-lab-item'); renderLabs(); renderSummary();
     });
@@ -3390,14 +3402,14 @@
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         const next = document.getElementById('view-' + btn.dataset.view);
         next.classList.add('active', 'entering');
-        requestAnimationFrame(() => {requestAnimationFrame(() => {next.classList.remove('entering');});});
+        requestAnimationFrame(() => { requestAnimationFrame(() => { next.classList.remove('entering'); }); });
       });
     });
 
     /* ============ SETTINGS: THEME ============ */
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      try {localStorage.setItem('physfak-theme', theme);} catch (e) { }
+      try { localStorage.setItem('physfak-theme', theme); } catch (e) { }
       document.querySelectorAll('.theme-opt').forEach(b => b.classList.toggle('active', b.dataset.themeOpt === theme));
     }
     function currentTheme() {
@@ -3410,12 +3422,12 @@
 
     /* ============ SETTINGS: ACCENT COLOR ============ */
     const ACCENT_COLORS = [
-      {name: 'Blue', hex: '#007AFF'},
-      {name: 'Purple', hex: '#AF52DE'},
-      {name: 'Pink', hex: '#FF2D55'},
-      {name: 'Red', hex: '#FF3B30'},
-      {name: 'Orange', hex: '#FF9500'},
-      {name: 'Green', hex: '#34C759'},
+      { name: 'Blue', hex: '#007AFF' },
+      { name: 'Purple', hex: '#AF52DE' },
+      { name: 'Pink', hex: '#FF2D55' },
+      { name: 'Red', hex: '#FF3B30' },
+      { name: 'Orange', hex: '#FF9500' },
+      { name: 'Green', hex: '#34C759' },
     ];
     function lightenHex(hex, amt) {
       const n = parseInt(hex.slice(1), 16);
@@ -3429,11 +3441,11 @@
       document.documentElement.style.setProperty('--accent', hex);
       document.documentElement.style.setProperty('--blue', hex);
       document.documentElement.style.setProperty('--blue2', lightenHex(hex, 0.35));
-      try {localStorage.setItem('physfak-accent', hex);} catch (e) { }
+      try { localStorage.setItem('physfak-accent', hex); } catch (e) { }
       document.querySelectorAll('.accent-swatch').forEach(b => b.classList.toggle('active', b.dataset.accent === hex));
     }
     function currentAccent() {
-      try {return localStorage.getItem('physfak-accent') || '#007AFF';} catch (e) {return '#007AFF';}
+      try { return localStorage.getItem('physfak-accent') || '#007AFF'; } catch (e) { return '#007AFF'; }
     }
     function renderAccentSwatches() {
       const current = currentAccent();
@@ -3453,10 +3465,10 @@
       const d = new Date(+ts);
       const today = new Date().toDateString();
       const yest = new Date(Date.now() - 86400000).toDateString();
-      const time = d.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+      const time = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
       if (d.toDateString() === today) return 'Today, ' + time;
       if (d.toDateString() === yest) return 'Yesterday, ' + time;
-      return d.toLocaleDateString('en-US', {day: 'numeric', month: 'short'}) + ', ' + time;
+      return d.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }) + ', ' + time;
     }
     function refreshBackupHint() {
       const ts = localStorage.getItem('physfak-last-backup');
@@ -3469,10 +3481,10 @@
 
     document.getElementById('export-backup-btn').addEventListener('click', () => {
       const data = JSON.stringify(getAppState(), null, 2);
-      const blob = new Blob([data], {type: 'application/json'});
+      const blob = new Blob([data], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      const stamp = new Date().toISOString().slice(0, 10);
+      const stamp = toLocalISO(new Date());
       a.href = url; a.download = `physfak-backup-${stamp}.json`;
       document.body.appendChild(a); a.click(); a.remove();
       URL.revokeObjectURL(url);
@@ -3512,8 +3524,8 @@
       const sevenDays = 7 * 24 * 60 * 60 * 1000;
       if (Date.now() - last < sevenDays) return;
       try {
-        const stamp = new Date().toISOString().slice(0, 10);
-        const metadata = {name: `physfak-backup-${stamp}.json`, parents: ['appDataFolder']};
+        const stamp = toLocalISO(new Date());
+        const metadata = { name: `physfak-backup-${stamp}.json`, parents: ['appDataFolder'] };
         const boundary = 'physfak_backup_' + Date.now();
         const body = JSON.stringify(getAppState());
         const multipartBody =
@@ -3521,19 +3533,19 @@
           `--${boundary}\r\nContent-Type: application/json\r\n\r\n${body}\r\n--${boundary}--`;
         await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
           method: 'POST',
-          headers: driveHeaders({'Content-Type': `multipart/related; boundary=${boundary}`}),
+          headers: driveHeaders({ 'Content-Type': `multipart/related; boundary=${boundary}` }),
           body: multipartBody
         });
         markBackupDone();
-      } catch (e) {console.error('Auto-backup failed', e);}
+      } catch (e) { console.error('Auto-backup failed', e); }
     }
 
     /* ============ SETTINGS: NOTIFICATIONS ============ */
     document.getElementById('notifications-toggle').addEventListener('change', async (e) => {
       if (e.target.checked) {
-        if (!('Notification' in window)) {e.target.checked = false; return;}
+        if (!('Notification' in window)) { e.target.checked = false; return; }
         const perm = await Notification.requestPermission();
-        if (perm !== 'granted') {e.target.checked = false; return;}
+        if (perm !== 'granted') { e.target.checked = false; return; }
         localStorage.setItem('physfak-notifications', '1');
       } else {
         localStorage.setItem('physfak-notifications', '0');
@@ -3542,7 +3554,7 @@
     function maybeNotify(text) {
       if (localStorage.getItem('physfak-notifications') !== '1') return;
       if (!('Notification' in window) || Notification.permission !== 'granted') return;
-      try {new Notification('Physics Track', {body: text});} catch (e) { }
+      try { new Notification('Physics Track', { body: text }); } catch (e) { }
     }
 
     document.getElementById('settings-btn').addEventListener('click', () => {
@@ -3563,7 +3575,7 @@
         : `✅ All caught up! Great job!`;
       banner.className = 'reminder-banner ' + (dueToday > 0 ? 'warn' : 'ok');
       banner.innerHTML = `<div class="banner-inner">${text}</div>`;
-      requestAnimationFrame(() => {requestAnimationFrame(() => {banner.classList.add('show');});});
+      requestAnimationFrame(() => { requestAnimationFrame(() => { banner.classList.add('show'); }); });
       const dismiss = () => banner.classList.remove('show');
       banner.querySelector('.banner-inner').addEventListener('click', dismiss);
       setTimeout(dismiss, 5000);
